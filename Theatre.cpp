@@ -69,10 +69,10 @@
 
 void Theatre::removeTheatre(){
     if(remove("listOfTheatres/test.txt") == 0){
-        std::cout << "Removed file" << std::endl;
+        std::cout << "Removed Theatre" << std::endl;
     }
     else{
-        std::cout << "Error removing file";
+        std::cout << "Error removing Theatre" << std:: endl;;
     }
 }
 
@@ -89,7 +89,7 @@ void Theatre::createTheatre(){
     //making file
     std::ofstream file("./listOfTheatres/test.txt");
     if (!file.is_open()) {
-        std::cout << "Error opening file!" << std::endl;
+        std::cout << "Error opening Theatre!" << std::endl;
     }
 
     //putting inputs into a file
@@ -100,18 +100,22 @@ void Theatre::createTheatre(){
             file << 0 << " ";
         }
     }
-
-    
+    //TODO: maybe put what theatre number for clarity?
+    std::cout << "Theatre Created" << std::endl;;
     file.close();
 }
 
 void Theatre::readTheatres(){
     int amount = 1;
-    //LEARN DIR
+    //format
+    std::cout << "----------------List of Theaters----------------" << std::endl;
+    //open dir and error check
     DIR* dir = opendir("./listOfTheatres");
     if (dir == NULL){
         std::cout << "Error opening directory" << std::endl;
     }
+
+    //read
     struct dirent* entry;
     while ((entry = readdir(dir)) != NULL) {
         std::string file = entry->d_name;
@@ -135,7 +139,7 @@ void unloadTheatre(Theatre &theatre){
     std::vector<std::vector<bool>> seats = theatre.getSeats();
         std::ofstream file("./listOfTheatres/test.txt");
     if (!file.is_open()) {
-        std::cout << "Error opening file!" << std::endl;
+        std::cout << "Error opening Theatre!" << std::endl;
     }
     file << theatre.getRows() << std::endl;
     file << theatre.getColumns() << std::endl;
@@ -154,7 +158,7 @@ void unloadTheatre(Theatre &theatre){
     std::ifstream file("./listOfTheatres/test.txt");
     int number;
     if (!file.is_open()) {
-        std::cout << "Error opening file!" << std::endl;
+        std::cout << "Error opening Theatre!" << std::endl;
         return;
     }
 
