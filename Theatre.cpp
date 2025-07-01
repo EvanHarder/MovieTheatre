@@ -1,8 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "Theatre.h"
-//probably will need a new theater when CREATING a theatre
 #include <vector>
+#include <dirent.h>
 
     //constructor
     Theatre::Theatre(int rows, int columns)
@@ -61,3 +62,118 @@
         std::cout << "}" << std::endl;
         }
     }
+
+
+
+//file manipulation
+
+void Theatre::removeTheatre(){
+    if(remove("listOfTheatres/test.txt") == 0){
+        std::cout << "Removed file" << std::endl;
+    }
+    else{
+        std::cout << "Error removing file";
+    }
+}
+
+//integrate into theatreclass Theatre::createTheatre;
+void Theatre::createTheatre(){
+
+    int r,c;
+    //inputs
+    std::cout << "How many rows?" << std::endl;
+    std::cin >> r;
+    std::cout << "How many columns?" << std::endl;
+    std::cin >> c;
+
+    //making file
+    std::ofstream file("./listOfTheatres/test.txt");
+    if (!file.is_open()) {
+        std::cout << "Error opening file!" << std::endl;
+    }
+
+    //putting inputs into a file
+    file << r << std::endl;
+    file << c << std::endl;
+        for(int x = 0; x< r; x++){
+        for(int j = 0; j < c; j++){
+            file << 0 << " ";
+        }
+    }
+
+    
+    file.close();
+}
+
+void Theatre::readTheatres(){
+    int amount = 1;
+    //LEARN DIR
+    DIR* dir = opendir("./listOfTheatres");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        if(!(file == "." || file == "..")){
+        std::cout << "Theatre: " << amount << " " << file << std::endl;
+        amount++;
+        }
+
+    }
+
+    closedir(dir);
+}
+
+
+
+
+
+namespace theatreUtil{
+
+void unloadTheatre(Theatre &theatre){
+    std::vector<std::vector<bool>> seats = theatre.getSeats();
+        std::ofstream file("./listOfTheatres/test.txt");
+    if (!file.is_open()) {
+        std::cout << "Error opening file!" << std::endl;
+    }
+    file << theatre.getRows() << std::endl;
+    file << theatre.getColumns() << std::endl;
+        for(int x = 0; x< theatre.getRows(); x++){
+        for(int j = 0; j < theatre.getColumns(); j++){
+            file << seats[x][j] << " ";
+        }
+    }
+
+    
+    file.close();
+}
+
+
+    void loadTheatre(Theatre &theatre){
+    std::ifstream file("./listOfTheatres/test.txt");
+    int number;
+    if (!file.is_open()) {
+        std::cout << "Error opening file!" << std::endl;
+        return;
+    }
+
+    //grabs rows and columns
+    std::string line;
+    std::getline(file,line);
+    theatre.setRows(std::stoi(line)); 
+    std::getline(file,line);
+    theatre.setColumns(std::stoi(line));
+    //resizes the global theatre using the new variables;
+    theatre.fixSeating();
+
+    //goes through every number and changes the seating to the true false
+    for(int x = 0; x< theatre.getRows(); x++){
+        for(int j = 0; j < theatre.getColumns(); j++){
+            file >> number;
+            theatre.setSeats(x,j,number);
+        }
+    }
+    file.close();
+}
+}

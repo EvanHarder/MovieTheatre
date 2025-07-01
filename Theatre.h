@@ -20,6 +20,10 @@ public:
     void fixSeating();
 //printing bugtest
     void showTheatreValues();
+//file manipulation
+    void static removeTheatre();
+    void static createTheatre();
+    void static readTheatres();
 private:
     std::string name;
     int rows;
@@ -30,3 +34,7 @@ private:
 
 
 };
+namespace theatreUtil{
+    void unloadTheatre(Theatre &theatre);
+    void loadTheatre(Theatre &theatre);
+}
