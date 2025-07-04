@@ -18,17 +18,20 @@ public:
     void setColumns(int columns);
 //resize seating
     void fixSeating();
+//unbooked seats
+int showAvailableSeats();
 //printing bugtest
     void showTheatreValues();
 //file manipulation
     void static removeTheatre();
     void static createTheatre();
-    void static readTheatres();
 private:
     std::string name;
     int rows;
     int columns;
     std::vector<std::vector<bool>> seats;
+    //not a pointer because only one movie object will be created
+    //Movie movie;
 
 
 
@@ -36,5 +39,6 @@ private:
 };
 namespace theatreUtil{
     void unloadTheatre(Theatre &theatre);
-    void loadTheatre(Theatre &theatre);
+    void loadTheatre(Theatre &theatre, std::string fileName);
+    void readTheatres();
 }

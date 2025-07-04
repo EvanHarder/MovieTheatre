@@ -22,15 +22,15 @@ int main(){
         if (choice == 1){
             //TODO: ask for a theatre, movie name and seats available;
             //TODO: reciept (just a cohfimration that they got the seats they collecgted. doesnt need to be an object for this scale)
-            Theatre::readTheatres();
-            theatreUtil::loadTheatre(theatre);
+            theatreUtil::readTheatres();
+            theatreUtil::loadTheatre(theatre,"test.txt");
             app(theatre);
             theatreUtil::unloadTheatre(theatre);
         }
 
         //creating theatre
         else if(choice == 2){
-            Theatre::readTheatres();
+            theatreUtil::readTheatres();
             std::cout << "Do you want to create a theatre? (Y/N): " << std::endl;
             std::cin >> creation;
             creation = convertUpper(creation);
@@ -42,7 +42,7 @@ int main(){
         //remove theates
         else if(choice == 3){
             //ask for a theatre Name;
-            Theatre::readTheatres();
+            theatreUtil::readTheatres();
             Theatre::removeTheatre();
         }
     }

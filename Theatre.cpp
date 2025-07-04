@@ -64,6 +64,20 @@
     }
 
 
+    //how many seats not booked in a theatre
+    int Theatre::showAvailableSeats(){
+        int temp = 0;
+                for(int x = 0; x< rows; x++){
+            for(int j = 0; j < columns; j++){
+                if (seats[x][j]==false){
+                    temp++;
+                }
+            }
+        }
+        return temp;
+    }
+
+
 
 //file manipulation
 
@@ -105,32 +119,6 @@ void Theatre::createTheatre(){
     file.close();
 }
 
-void Theatre::readTheatres(){
-    int amount = 1;
-    //format
-    std::cout << "----------------List of Theaters----------------" << std::endl;
-    //open dir and error check
-    DIR* dir = opendir("./listOfTheatres");
-    if (dir == NULL){
-        std::cout << "Error opening directory" << std::endl;
-    }
-
-    //read
-    struct dirent* entry;
-    while ((entry = readdir(dir)) != NULL) {
-        std::string file = entry->d_name;
-        if(!(file == "." || file == "..")){
-        std::cout << "Theatre: " << amount << " " << file << std::endl;
-        amount++;
-        }
-
-    }
-
-    closedir(dir);
-}
-
-
-
 
 
 namespace theatreUtil{
@@ -154,8 +142,8 @@ void unloadTheatre(Theatre &theatre){
 }
 
 
-    void loadTheatre(Theatre &theatre){
-    std::ifstream file("./listOfTheatres/test.txt");
+    void loadTheatre(Theatre &theatre, std::string fileName){
+    std::ifstream file("./listOfTheatres/" + fileName);
     int number;
     if (!file.is_open()) {
         std::cout << "Error opening Theatre!" << std::endl;
@@ -180,4 +168,33 @@ void unloadTheatre(Theatre &theatre){
     }
     file.close();
 }
+
+
+void readTheatres(){
+    int amount = 1;
+    //format
+    std::cout << "----------------List of Theaters----------------" << std::endl;
+    //open dir and error check
+    DIR* dir = opendir("./listOfTheatres");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+
+    //read
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        Theatre temp(1,1);
+        if(!(file == "." || file == "..")){
+        theatreUtil::loadTheatre(temp,file);
+        std::cout << "Theatre: " << amount << " " << file << " AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
+        amount++;
+        }
+
+    }
+
+    closedir(dir);
+}
+
+
 }

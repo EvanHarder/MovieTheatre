@@ -4,4 +4,4 @@ users pick a seat by a popup that shows the seating plan and which seats are ava
 upon picking these seats. the user can click the green confirm button to confirm their choices.
 
 TODO:
-Put these theatrees into a text file to be used past runtime. Add a movie and time onto the theatres.
+Add a movie and time onto the theatres.
