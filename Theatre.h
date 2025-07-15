@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "movie.h"
 
 class Theatre{
 public:
@@ -10,12 +11,14 @@ public:
     int getColumns();
     std::vector<std::vector<bool>> getSeats();
     std::string getName();
+    Movie& getMovie();
 //setters
     void selectSeat(int row,int column);
     void setName(std::string name);
     void setSeats(int rows, int columns,int value);
     void setRows(int rows);
     void setColumns(int columns);
+    void setMovie(Movie& movie);
 //resize seating
     void fixSeating();
 //unbooked seats
@@ -30,8 +33,7 @@ private:
     int rows;
     int columns;
     std::vector<std::vector<bool>> seats;
-    //not a pointer because only one movie object will be created
-    //Movie movie;
+    Movie movie;
 
 
 

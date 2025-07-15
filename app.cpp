@@ -99,7 +99,8 @@ void app(Theatre& theatre) {
 
                     //if clicked on a square say what square and then switch its color
                     if (square.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                        std::cout << "Square " << counter+1 <<  " clicked!" << std::endl;
+                        //incase of bug fixing
+                        //std::cout << "Square " << counter+1 <<  " clicked!" << std::endl;
 
                         //confirm & unconfirm squares
                         if (square.getFillColor() == sf::Color::Yellow){
@@ -126,7 +127,8 @@ void app(Theatre& theatre) {
               }
                 //confirming choice
                 if (confirm.getGlobalBounds().contains(mousePos.x, mousePos.y)){
-                std::cout << "confirm clicked" << std::endl;
+                //maybe for debugging?
+                //std::cout << "confirm clicked" << std::endl;
                   window.close();
                 }
             }

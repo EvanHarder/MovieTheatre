@@ -17,7 +17,8 @@ int menu(){
     std::cout << "1) Book a seat" << std::endl;
     std::cout << "2) Create a new Theatre" << std::endl;
     std::cout << "3) Remove a Theatre" << std::endl;
-    std::cout << "4) Quit" << std::endl;
+    std::cout << "4) Create a Movie" << std::endl;
+    std::cout << "5) Quit" << std::endl;
     std::cin >> decision;
     return decision;
 }

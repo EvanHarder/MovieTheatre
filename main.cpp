@@ -1,22 +1,26 @@
-//TODO make the theatre classes have a movie attached. Seat avaiabliltiy. be able to create multiple theatre files.
+//TODO Assign a movie to a theatre. be able to create multiple theatre files. Reset the theatre once the movie ends;
 #include <iostream>
 #include <string>
 //headers
+#include "movie.h"
 #include "Theatre.h"
 #include "app.h"
 #include "formats.h"
+
+//#incl
 int main(){
     //base theatre  
     Theatre theatre(1,1);
     std::string creation;
     int choice = 1;
+    const int AVAILABLECHOICES = 4;
+
     //probably can fix the hardcode
-    while (choice>0&&choice<4){
+    while (choice > 0 && choice <= AVAILABLECHOICES){
         //format
         clearScreen();
         //grab choice
         choice = menu();
-
 
         //booking a seat
         if (choice == 1){
@@ -44,6 +48,11 @@ int main(){
             //ask for a theatre Name;
             theatreUtil::readTheatres();
             Theatre::removeTheatre();
+        }
+
+        else if (choice == 4){
+            //error here make sure to fix how the theatres are called.
+            //movieUtil::assignMovie();
         }
     }
 }//main

@@ -7,7 +7,7 @@
 
     //constructor
     Theatre::Theatre(int rows, int columns)
-        : name("UNTITLED THEATRE"),rows(rows),columns(columns),seats(rows, std::vector<bool>(columns)) {}
+        : name("UNTITLED THEATRE"),rows(rows),columns(columns),seats(rows, std::vector<bool>(columns)), movie() {}
 
     //Getters
     std::vector<std::vector<bool>> Theatre::getSeats(){return seats;}
@@ -15,6 +15,8 @@
     int Theatre::getRows(){return rows;}
     
     int Theatre::getColumns(){return columns;}
+
+    Movie& Theatre::getMovie(){return movie;}
     
     std::string Theatre::getName(){return name;}
 
@@ -42,13 +44,16 @@
     void Theatre::setColumns(int columns){
         this->columns=columns;
     }
+
+    void Theatre::setMovie(Movie& movie){
+        this->movie=movie;
+    }
     
     //change theatre name for when the movie changes... should probably add time for when the movie is occuring.. maybe movie is an object with its own time and name and then the theatres have availabliklty?
     void Theatre::setName(std::string name){this->name = name;}
 
     //show values (bug testing)
     void Theatre::showTheatreValues(){
-        std::cout << name << std::endl;
         for(int x = 0; x< rows; x++){
             std::cout << "{";
             for(int j = 0; j < columns; j++){
@@ -105,15 +110,14 @@ void Theatre::createTheatre(){
     if (!file.is_open()) {
         std::cout << "Error opening Theatre!" << std::endl;
     }
-
+    Theatre tempTheatre(1,1);
     //putting inputs into a file
-    file << r << std::endl;
-    file << c << std::endl;
-        for(int x = 0; x< r; x++){
-        for(int j = 0; j < c; j++){
-            file << 0 << " ";
-        }
-    }
+    tempTheatre.setRows(r); 
+    tempTheatre.setColumns(c);
+    //resizes the global theatre using the new variables;
+    tempTheatre.fixSeating();
+    theatreUtil::unloadTheatre(tempTheatre);
+
     //TODO: maybe put what theatre number for clarity?
     std::cout << "Theatre Created" << std::endl;;
     file.close();
@@ -136,6 +140,11 @@ void unloadTheatre(Theatre &theatre){
             file << seats[x][j] << " ";
         }
     }
+    //string issues sizing
+    file << std::endl << theatre.getMovie().getTitle() << std::endl;
+    file << theatre.getMovie().getDuration() << std::endl;
+    file << theatre.getMovie().getRating() << std::endl;
+    file << theatre.getMovie().getStartTime() << std::endl;
 
     
     file.close();
@@ -166,6 +175,23 @@ void unloadTheatre(Theatre &theatre){
             theatre.setSeats(x,j,number);
         }
     }
+
+    //file read movie
+    Movie tempMovie;
+
+    std::getline(file,line); //getline to clear the rest of the seating array numbers
+
+    //setting movie parameters, title,duration,rating,starttime
+    std::getline(file,line);
+    tempMovie.setTitle(line);
+    std::getline(file,line);
+    tempMovie.setDuration(std::stoi(line));
+    std::getline(file,line);
+    tempMovie.setRating(line);
+    std::getline(file,line);
+    tempMovie.setStartTime(line);
+
+    theatre.setMovie(tempMovie);
     file.close();
 }
 
@@ -187,7 +213,9 @@ void readTheatres(){
         Theatre temp(1,1);
         if(!(file == "." || file == "..")){
         theatreUtil::loadTheatre(temp,file);
-        std::cout << "Theatre: " << amount << " " << file << " AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
+        std::cout << "========================" << std::endl;
+        std::cout << "      THEATRE " << amount << ": " << std::endl << "TITLE: " << temp.getMovie().getTitle() << std::endl <<"START TIME: " << temp.getMovie().getStartTime() << std::endl << "DURATION: " << temp.getMovie().getDuration() << std::endl << "RATING: " << temp.getMovie().getRating() << std::endl << "AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
+        std::cout << "========================" << std::endl;
         amount++;
         }
 
