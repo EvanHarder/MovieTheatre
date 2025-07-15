@@ -19,8 +19,9 @@ public:
     void setRows(int rows);
     void setColumns(int columns);
     void setMovie(Movie& movie);
-//resize seating
+//resize seating and resetting
     void fixSeating();
+    void resetSeating();
 //unbooked seats
 int showAvailableSeats();
 //printing bugtest

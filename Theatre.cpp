@@ -82,7 +82,13 @@
         return temp;
     }
 
-
+void Theatre::resetSeating(){
+    for(int x = 0; x< rows; x++){
+        for(int j = 0; j < columns; j++){
+            seats[x][j] = 0;
+        }
+    }
+}
 
 //file manipulation
 

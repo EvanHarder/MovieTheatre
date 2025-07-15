@@ -11,11 +11,14 @@
 int main(){
     //base theatre  
     Theatre theatre(1,1);
+
+    //input for menu
     std::string creation;
     int choice = 1;
+    
+    //Constant Variables
     const int AVAILABLECHOICES = 4;
 
-    //probably can fix the hardcode
     while (choice > 0 && choice <= AVAILABLECHOICES){
         //format
         clearScreen();
