@@ -51,14 +51,12 @@ namespace movieUtil{
     std::cin >> t;
     std::cout << "Duration of Movie" << std::endl;
     std::cin >> d;
-
-    //TODO: turn duration into an int
     std::cout << "Rating of Movie" << std::endl;
     std::cin >> r;
 
     //making file
     //replace test.txt with inputted name;
-    std::ofstream file("./listOfMovies/test.txt");
+    std::ofstream file("./listOfMovies/" + (std::string("movie") + std::to_string(movieUtil::getMovieNumber()) + ".txt"));
     if (!file.is_open()) {
         std::cout << "Error Creating Movie!" << std::endl;
     }
@@ -68,7 +66,7 @@ namespace movieUtil{
     file << d << std::endl;
     file << r << std::endl;
     //TODO: maybe put what movie number for clarity?
-    std::cout << "Movie Created" << std::endl;
+    std::cout << "Movie " << movieUtil::getMovieNumber()-1 << " Created" << std::endl;
     file.close();
     }
 
@@ -83,12 +81,14 @@ namespace movieUtil{
 
         //select & load movie
         movieUtil::readMovies();
-        std::cin movieNumber;
+        std::cout << "What movie to assign:" << std::endl;
+        std::cin >> movieNumber;
         tempMovie = movieUtil::loadMovie(std::string("movie") + std::to_string(movieNumber) + ".txt",false);
 
         //select & load theatre
         theatreUtil::readTheatres();
-        std::cin theatreNumber;
+        std::cout << "To theatre:" << std::endl;
+        std::cin >> theatreNumber;
         theatreUtil::loadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
 
         //place movie into theatre
@@ -164,5 +164,30 @@ namespace movieUtil{
     closedir(dir);
 }
 
+int getMovieNumber(){
+    int amount = 1;
 
-}//end iof class
+    //open dir and error check
+    DIR* dir = opendir("./listOfMovies");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+
+    //read
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
+            if(!(file == std::string("movie") + std::to_string(amount) + ".txt")){
+                closedir(dir);
+                return amount;
+            }
+        amount++;
+        }
+
+    }
+    closedir(dir);
+    return amount++;
+}
+
+}//end of namespace

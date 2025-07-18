@@ -37,4 +37,6 @@ namespace movieUtil{
     Movie loadMovie(std::string fileName, bool inTheatreObject);
     void assignMovie();
     void readMovies();
+    //when creating a theatre what number to put in file
+    int getMovieNumber();
 }

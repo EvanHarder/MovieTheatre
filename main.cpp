@@ -18,9 +18,9 @@ int main(){
     int theatreSelected;
     
     //Constant Variables
-    const int AVAILABLECHOICES = 4;
+    const int AVAILABLECHOICES = 7;
 
-    while (choice > 0 && choice <= AVAILABLECHOICES){
+    while (choice > 0 && choice < AVAILABLECHOICES){
         //format
         clearScreen();
         //grab choice
@@ -53,13 +53,18 @@ int main(){
 
         //remove theates
         else if(choice == 3){
-            //ask for a theatre Name;
-            theatreUtil::readTheatres();
             Theatre::removeTheatre();
         }
 
         else if (choice == 4){
             //error here make sure to fix how the theatres are called.
+            movieUtil::createMovie();
+        }
+        else if(choice == 5){
+            //remove movie
+        }
+        else if (choice == 6){
+            //assign movie
             movieUtil::assignMovie();
         }
     }

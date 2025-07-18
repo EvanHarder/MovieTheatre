@@ -97,7 +97,12 @@ void Theatre::resetSeating(){
 //file manipulation
 
 void Theatre::removeTheatre(){
-    if(remove("listOfTheatres/theatre1.txt") == 0){
+    int theatreSelected;
+    theatreUtil::readTheatres();
+    std::cout << "What theatre do you want to delete: " << std::endl;
+    std::cin >> theatreSelected;
+
+    if(remove(("./listOfTheatres/" + (std::string("theatre") + std::to_string(theatreSelected) + ".txt")).c_str()) == 0){
         std::cout << "Removed Theatre" << std::endl;
     }
     else{
@@ -120,10 +125,10 @@ void Theatre::createTheatre(){
     tempTheatre.setColumns(c);
     //resizes the global theatre using the new variables;
     tempTheatre.fixSeating();
-    theatreUtil::unloadTheatre(tempTheatre,"theatre1.txt");
+    theatreUtil::unloadTheatre(tempTheatre,(std::string("theatre") + std::to_string(theatreUtil::getTheatreNumber()) + ".txt"));
 
     //TODO: maybe put what theatre number for clarity?
-    std::cout << "Theatre Created" << std::endl;;
+    std::cout << "Theatre " << theatreUtil::getTheatreNumber()-1 << " Created" << std::endl;
 }
 
 
@@ -215,6 +220,32 @@ void readTheatres(){
     }
 
     closedir(dir);
+}
+
+int getTheatreNumber(){
+    int amount = 1;
+
+    //open dir and error check
+    DIR* dir = opendir("./listOfTheatres");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+
+    //read
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
+            if(!(file == std::string("theatre") + std::to_string(amount) + ".txt")){
+                closedir(dir);
+                return amount;
+            }
+        amount++;
+        }
+
+    }
+    closedir(dir);
+    return amount++;
 }
 
 

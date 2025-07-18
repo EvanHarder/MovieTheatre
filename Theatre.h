@@ -41,7 +41,11 @@ private:
 
 };
 namespace theatreUtil{
+    //theatre read and write
     void unloadTheatre(Theatre &theatre, std::string fileName);
     void loadTheatre(Theatre &theatre, std::string fileName);
+    //reads theatres from directory
     void readTheatres();
+    //when creating a theatre what number to put in file
+    int getTheatreNumber();
 }
