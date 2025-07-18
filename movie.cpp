@@ -6,14 +6,14 @@
 #include "theatre.h"
 //default constructor
     Movie::Movie()
-    : title("UNTITLED"), duration(0), rating("NR"), startTime("00:00") {}
+    : title("UNTITLED"), duration("0:00"), rating("NR"), startTime("00:00") {}
 //constructor
-    Movie::Movie(std::string title, int duration, std::string rating, std::string startTime) : title(title),duration(duration),rating(rating),startTime(startTime) {}
+    Movie::Movie(std::string title, std::string duration, std::string rating, std::string startTime) : title(title),duration(duration),rating(rating),startTime(startTime) {}
 //getters
     std::string Movie::getTitle() const {
         return this->title;
     };
-    int Movie::getDuration() const {
+    std::string Movie::getDuration() const {
         return this->duration;
     };
     std::string Movie::getRating() const {
@@ -25,18 +25,18 @@
     };
 
 //setters
-    std::string Movie::setTitle(std::string title){
-        return this->title = title;
+    void Movie::setTitle(std::string title){
+        this->title = title;
     };
-    int Movie::setDuration(int duration){
-        return this->duration = duration;
+    void Movie::setDuration(std::string duration){
+        this->duration = duration;
     };
-    std::string Movie::setRating(std::string rating){
-        return this->rating = rating;
+    void Movie::setRating(std::string rating){
+        this->rating = rating;
     };
 
-    std::string Movie::setStartTime(std::string startTime){
-        return this->startTime = startTime;
+    void Movie::setStartTime(std::string startTime){
+        this->startTime = startTime;
     };
 
 namespace movieUtil{
@@ -67,7 +67,7 @@ namespace movieUtil{
     file << t << std::endl;
     file << d << std::endl;
     file << r << std::endl;
-    //TODO: maybe put what theatre number for clarity?
+    //TODO: maybe put what movie number for clarity?
     std::cout << "Movie Created" << std::endl;
     file.close();
     }
@@ -75,15 +75,23 @@ namespace movieUtil{
 
     //create a theatre object, create a movie object. put the movie object into the theatre, update theatre file, delete objects afterword (happens naturally)
     void assignMovie(){
-        int theatreNumber = 1;
+        int theatreNumber = 3;
+        int movieNumber = 1;
 
         Movie tempMovie;
         Theatre tempTheatre(1,1);
 
-        //reads all theates and movies, assigns a movie to that theatre.
+        //select & load movie
         movieUtil::readMovies();
-        //changes the temp theatre into a theatre in file, theatreNumber is to grab the exact one expecting a int input after reading;
+        std::cin movieNumber;
+        tempMovie = movieUtil::loadMovie(std::string("movie") + std::to_string(movieNumber) + ".txt",false);
+
+        //select & load theatre
+        theatreUtil::readTheatres();
+        std::cin theatreNumber;
         theatreUtil::loadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
+
+        //place movie into theatre
         tempTheatre.setMovie(tempMovie);
         theatreUtil::unloadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
     };
@@ -118,7 +126,7 @@ namespace movieUtil{
     std::getline(file,line);
     tempMovie.setTitle(line);
     std::getline(file,line);
-    tempMovie.setDuration(std::stoi(line));
+    tempMovie.setDuration(line);
     std::getline(file,line);
     tempMovie.setRating(line);
     return tempMovie;

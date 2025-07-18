@@ -5,25 +5,25 @@ class Movie {
     //default constructor
     Movie();
     //constructor
-    Movie(std::string title, int duration, std::string rating, std::string startTime);
+    Movie(std::string title, std::string duration, std::string rating, std::string startTime);
     //getters
     std::string getTitle() const;
-    int getDuration() const;
+    std::string getDuration() const;
     std::string getRating() const;
     std::string getStartTime() const;
 
     //setters
-    std::string setTitle(std::string title);
-    int setDuration(int duration);
-    std::string setRating(std::string rating);
-    std::string setStartTime(std::string startTime);
+    void setTitle(std::string title);
+    void setDuration(std::string duration);
+    void setRating(std::string rating);
+    void setStartTime(std::string startTime);
 
 
 
     //variables
     private:
         std::string title;
-        int duration;
+        std::string duration;
         std::string rating;
         std::string startTime;
 };

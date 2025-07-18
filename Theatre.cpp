@@ -36,6 +36,10 @@
     }
 
     void Theatre::setSeats(int rows, int columns,int value){
+        if (rows < 0 || rows >= this->rows || this->columns < 0 || columns >= this->columns) {
+            std::cerr << "ERROR: setSeats out-of-bounds: (" << rows << "," << columns << ")" << std::endl;
+            return;
+        }
         seats[rows][columns]=value;
     }
     void Theatre::setRows(int rows){
@@ -93,7 +97,7 @@ void Theatre::resetSeating(){
 //file manipulation
 
 void Theatre::removeTheatre(){
-    if(remove("listOfTheatres/test.txt") == 0){
+    if(remove("listOfTheatres/theatre1.txt") == 0){
         std::cout << "Removed Theatre" << std::endl;
     }
     else{
@@ -116,7 +120,7 @@ void Theatre::createTheatre(){
     tempTheatre.setColumns(c);
     //resizes the global theatre using the new variables;
     tempTheatre.fixSeating();
-    theatreUtil::unloadTheatre(tempTheatre,"newTheatre.txt");
+    theatreUtil::unloadTheatre(tempTheatre,"theatre1.txt");
 
     //TODO: maybe put what theatre number for clarity?
     std::cout << "Theatre Created" << std::endl;;
@@ -168,6 +172,8 @@ void unloadTheatre(Theatre &theatre, std::string fileName){
     theatre.fixSeating();
 
     //goes through every number and changes the seating to the true false
+
+
     for(int x = 0; x< theatre.getRows(); x++){
         for(int j = 0; j < theatre.getColumns(); j++){
             file >> number;
@@ -198,7 +204,7 @@ void readTheatres(){
     struct dirent* entry;
     while ((entry = readdir(dir)) != NULL) {
         std::string file = entry->d_name;
-        if(!(file == "." || file == "..")){
+        if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
         theatreUtil::loadTheatre(temp,file);
         std::cout << "========================" << std::endl;
         std::cout << "      THEATRE " << amount << ": " << std::endl << "TITLE: " << temp.getMovie().getTitle() << std::endl <<"START TIME: " << temp.getMovie().getStartTime() << std::endl << "DURATION: " << temp.getMovie().getDuration() << std::endl << "RATING: " << temp.getMovie().getRating() << std::endl << "AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;

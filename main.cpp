@@ -1,4 +1,4 @@
-//TODO Assign a movie to a theatre. be able to create multiple theatre files. Reset the theatre once the movie ends;
+//TODO be able to create multiple theatre files. Reset the theatre once the movie ends;
 #include <iostream>
 #include <string>
 //headers
@@ -60,7 +60,7 @@ int main(){
 
         else if (choice == 4){
             //error here make sure to fix how the theatres are called.
-            movieUtil::readMovies();
+            movieUtil::assignMovie();
         }
     }
 }//main
