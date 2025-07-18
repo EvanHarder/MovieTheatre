@@ -41,7 +41,7 @@ private:
 
 };
 namespace theatreUtil{
-    void unloadTheatre(Theatre &theatre);
+    void unloadTheatre(Theatre &theatre, std::string fileName);
     void loadTheatre(Theatre &theatre, std::string fileName);
     void readTheatres();
 }

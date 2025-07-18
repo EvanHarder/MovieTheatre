@@ -15,6 +15,7 @@ int main(){
     //input for menu
     std::string creation;
     int choice = 1;
+    int theatreSelected;
     
     //Constant Variables
     const int AVAILABLECHOICES = 4;
@@ -30,9 +31,13 @@ int main(){
             //TODO: ask for a theatre, movie name and seats available;
             //TODO: reciept (just a cohfimration that they got the seats they collecgted. doesnt need to be an object for this scale)
             theatreUtil::readTheatres();
-            theatreUtil::loadTheatre(theatre,"test.txt");
+            std::cout << "What theatre do you want to book for?: " << std::endl;
+            std::cin >> theatreSelected;
+
+            theatreUtil::loadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
+
             app(theatre);
-            theatreUtil::unloadTheatre(theatre);
+            theatreUtil::unloadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
         }
 
         //creating theatre
@@ -55,7 +60,7 @@ int main(){
 
         else if (choice == 4){
             //error here make sure to fix how the theatres are called.
-            //movieUtil::assignMovie();
+            movieUtil::readMovies();
         }
     }
 }//main

@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <dirent.h>
 #include "movie.h"
 #include "theatre.h"
 //default constructor
@@ -41,6 +42,7 @@
 namespace movieUtil{
     //checks startTime and duration to see if the movie is done playing
     //bool movieFinished(Movie &movie);
+
     void createMovie(){
 
     std::string t,r,d;
@@ -70,6 +72,7 @@ namespace movieUtil{
     file.close();
     }
 
+
     //create a theatre object, create a movie object. put the movie object into the theatre, update theatre file, delete objects afterword (happens naturally)
     void assignMovie(){
         int theatreNumber = 1;
@@ -78,34 +81,80 @@ namespace movieUtil{
         Theatre tempTheatre(1,1);
 
         //reads all theates and movies, assigns a movie to that theatre.
+        movieUtil::readMovies();
         //changes the temp theatre into a theatre in file, theatreNumber is to grab the exact one expecting a int input after reading;
         theatreUtil::loadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
         tempTheatre.setMovie(tempMovie);
-        theatreUtil::unloadTheatre(tempTheatre);
+        theatreUtil::unloadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
     };
 
-//     void readMovies(){
-//     int amount = 1;
-//     //format
-//     std::cout << "----------------List of Movies----------------" << std::endl;
-//     //open dir and error check
-//     DIR* dir = opendir("./listOfMovies");
-//     if (dir == NULL){
-//         std::cout << "Error opening directory" << std::endl;
-//     }
+//set a bool
+    Movie loadMovie(std::string fileName, bool inTheatreObject = false){
+    Movie tempMovie;
+    std::string line;
+    std::ifstream file;
 
-//     //read
-//     struct dirent* entry;
-//     while ((entry = readdir(dir)) != NULL) {
-//         std::string file = entry->d_name;
-//         if(!(file == "." || file == "..")){
-//         amount++;
-//         }
+    if(!inTheatreObject){
 
-//     }
+    file.open("./listOfMovies/" + fileName);
+    if (!file.is_open()) {
+        std::cout << "Error opening Movie!" << std::endl;
+        return tempMovie;
+    }
 
-//     closedir(dir);
-// }
+    }
+    else{
+        file.open("./listOfTheatres/" + fileName);
+        if (!file.is_open()) {
+            std::cout << "Error opening Theatre!" << std::endl;
+            return tempMovie;
+        }
+        std::getline(file,line);
+        std::getline(file,line);
+        std::getline(file,line);
+    }
+    //setting movie parameters, title,duration,rating,starttime
+    
+    std::getline(file,line);
+    tempMovie.setTitle(line);
+    std::getline(file,line);
+    tempMovie.setDuration(std::stoi(line));
+    std::getline(file,line);
+    tempMovie.setRating(line);
+    return tempMovie;
+    }
+
+
+    void readMovies(){
+    int amount = 1;
+    Movie temp;
+    //format
+    std::cout << "----------------List of Movies----------------" << std::endl;
+    //open dir and error check
+    DIR* dir = opendir("./listOfMovies");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+
+    //read
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        if(!(file == "." || file == "..")){
+            temp = movieUtil::loadMovie(file,false);
+            std::cout << "========================" << std::endl;
+            std::cout << "      Movie " << amount << ": "  << std::endl;
+            std::cout << "Title: " << temp.getTitle() << std::endl;
+            std::cout << "Duration: " << temp.getDuration() << std::endl;
+            std::cout << "Rating: " << temp.getRating() << std::endl;
+            std::cout << "========================" << std::endl;
+            amount++;
+        }
+
+    }
+
+    closedir(dir);
+}
 
 
 }//end iof class

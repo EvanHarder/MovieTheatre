@@ -30,8 +30,11 @@ class Movie {
 //todo
 namespace movieUtil{
     //checks startTime and duration to see if the movie is done playing
-    bool movieFinished(Movie &movie);
+    //bool movieFinished(Movie &movie);
+    //creates a file for a movie
     void createMovie();
+    //returns a movie upon recieving the fileName. its a Movie funciton because this program doesnt always need to have a movie object. false if not in a theatreobjecft true if it is
+    Movie loadMovie(std::string fileName, bool inTheatreObject);
     void assignMovie();
     void readMovies();
 }

@@ -110,32 +110,25 @@ void Theatre::createTheatre(){
     std::cin >> r;
     std::cout << "How many columns?" << std::endl;
     std::cin >> c;
-
-    //making file
-    std::ofstream file("./listOfTheatres/test.txt");
-    if (!file.is_open()) {
-        std::cout << "Error opening Theatre!" << std::endl;
-    }
     Theatre tempTheatre(1,1);
     //putting inputs into a file
     tempTheatre.setRows(r); 
     tempTheatre.setColumns(c);
     //resizes the global theatre using the new variables;
     tempTheatre.fixSeating();
-    theatreUtil::unloadTheatre(tempTheatre);
+    theatreUtil::unloadTheatre(tempTheatre,"newTheatre.txt");
 
     //TODO: maybe put what theatre number for clarity?
     std::cout << "Theatre Created" << std::endl;;
-    file.close();
 }
 
 
 
 namespace theatreUtil{
 
-void unloadTheatre(Theatre &theatre){
+void unloadTheatre(Theatre &theatre, std::string fileName){
     std::vector<std::vector<bool>> seats = theatre.getSeats();
-        std::ofstream file("./listOfTheatres/test.txt");
+        std::ofstream file("./listOfTheatres/" + fileName);
     if (!file.is_open()) {
         std::cout << "Error opening Theatre!" << std::endl;
     }
@@ -181,21 +174,9 @@ void unloadTheatre(Theatre &theatre){
             theatre.setSeats(x,j,number);
         }
     }
-
-    //file read movie
-    Movie tempMovie;
-
     std::getline(file,line); //getline to clear the rest of the seating array numbers
-
-    //setting movie parameters, title,duration,rating,starttime
-    std::getline(file,line);
-    tempMovie.setTitle(line);
-    std::getline(file,line);
-    tempMovie.setDuration(std::stoi(line));
-    std::getline(file,line);
-    tempMovie.setRating(line);
-    std::getline(file,line);
-    tempMovie.setStartTime(line);
+    //file read movie
+    Movie tempMovie = movieUtil::loadMovie(fileName,true);
 
     theatre.setMovie(tempMovie);
     file.close();
@@ -204,6 +185,7 @@ void unloadTheatre(Theatre &theatre){
 
 void readTheatres(){
     int amount = 1;
+    Theatre temp(1,1);
     //format
     std::cout << "----------------List of Theaters----------------" << std::endl;
     //open dir and error check
@@ -216,7 +198,6 @@ void readTheatres(){
     struct dirent* entry;
     while ((entry = readdir(dir)) != NULL) {
         std::string file = entry->d_name;
-        Theatre temp(1,1);
         if(!(file == "." || file == "..")){
         theatreUtil::loadTheatre(temp,file);
         std::cout << "========================" << std::endl;
