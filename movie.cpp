@@ -39,6 +39,7 @@
         this->startTime = startTime;
     };
 
+
 namespace movieUtil{
     //checks startTime and duration to see if the movie is done playing
     //bool movieFinished(Movie &movie);
@@ -70,6 +71,20 @@ namespace movieUtil{
     file.close();
     }
 
+    //removes a movie
+    void removeMovie(){
+        int movieSelected;
+        movieUtil::readMovies();
+        std::cout << "What movie do you want to delete: " << std::endl;
+        std::cin >> movieSelected;
+        if(remove(("./listOfMovies/" + (std::string("movie") + std::to_string(movieSelected) + ".txt")).c_str()) == 0){
+            std::cout << "Removed Movie" << std::endl;
+        }
+        else{
+            std::cout << "Error removing Movie" << std:: endl;;
+        }
+    }
+
 
     //create a theatre object, create a movie object. put the movie object into the theatre, update theatre file, delete objects afterword (happens naturally)
     void assignMovie(){
@@ -81,13 +96,13 @@ namespace movieUtil{
 
         //select & load movie
         movieUtil::readMovies();
-        std::cout << "What movie to assign:" << std::endl;
+        std::cout << "What movie to assign: ";
         std::cin >> movieNumber;
         tempMovie = movieUtil::loadMovie(std::string("movie") + std::to_string(movieNumber) + ".txt",false);
 
         //select & load theatre
         theatreUtil::readTheatres();
-        std::cout << "To theatre:" << std::endl;
+        std::cout << "To theatre: ";
         std::cin >> theatreNumber;
         theatreUtil::loadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
 

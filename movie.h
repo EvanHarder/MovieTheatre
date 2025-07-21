@@ -18,8 +18,6 @@ class Movie {
     void setRating(std::string rating);
     void setStartTime(std::string startTime);
 
-
-
     //variables
     private:
         std::string title;
@@ -33,6 +31,8 @@ namespace movieUtil{
     //bool movieFinished(Movie &movie);
     //creates a file for a movie
     void createMovie();
+    //removes a file for a movie
+    void removeMovie();
     //returns a movie upon recieving the fileName. its a Movie funciton because this program doesnt always need to have a movie object. false if not in a theatreobjecft true if it is
     Movie loadMovie(std::string fileName, bool inTheatreObject);
     void assignMovie();

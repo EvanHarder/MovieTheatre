@@ -1,7 +1,6 @@
-//TODO be able to create multiple theatre files. Reset the theatre once the movie ends;
+//TODO: Reset the theatre once the movie ends;
 #include <iostream>
 #include <string>
-//headers
 #include "movie.h"
 #include "Theatre.h"
 #include "app.h"
@@ -15,7 +14,7 @@ int main(){
     //input for menu
     std::string creation;
     int choice = 1;
-    int theatreSelected;
+
     
     //Constant Variables
     const int AVAILABLECHOICES = 7;
@@ -23,6 +22,7 @@ int main(){
     while (choice > 0 && choice < AVAILABLECHOICES){
         //format
         clearScreen();
+
         //grab choice
         choice = menu();
 
@@ -30,6 +30,7 @@ int main(){
         if (choice == 1){
             //TODO: ask for a theatre, movie name and seats available;
             //TODO: reciept (just a cohfimration that they got the seats they collecgted. doesnt need to be an object for this scale)
+            int theatreSelected;
             theatreUtil::readTheatres();
             std::cout << "What theatre do you want to book for?: " << std::endl;
             std::cin >> theatreSelected;
@@ -62,6 +63,7 @@ int main(){
         }
         else if(choice == 5){
             //remove movie
+            movieUtil::removeMovie();
         }
         else if (choice == 6){
             //assign movie

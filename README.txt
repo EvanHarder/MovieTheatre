@@ -5,4 +5,4 @@ upon picking these seats. the user can click the green confirm button to confirm
 
 TODO:
 Input exceptions.startTime (prolyl when assigning a movie). Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
-reciept. add input num into the load functions
+reciept.

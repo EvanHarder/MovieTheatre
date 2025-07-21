@@ -212,7 +212,7 @@ void readTheatres(){
         if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
         theatreUtil::loadTheatre(temp,file);
         std::cout << "========================" << std::endl;
-        std::cout << "      THEATRE " << amount << ": " << std::endl << "TITLE: " << temp.getMovie().getTitle() << std::endl <<"START TIME: " << temp.getMovie().getStartTime() << std::endl << "DURATION: " << temp.getMovie().getDuration() << std::endl << "RATING: " << temp.getMovie().getRating() << std::endl << "AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
+        std::cout << "      THEATRE " << file.substr(7, (file.find('.', 7)-7)) << ": " << std::endl << "TITLE: " << temp.getMovie().getTitle() << std::endl <<"START TIME: " << temp.getMovie().getStartTime() << std::endl << "DURATION: " << temp.getMovie().getDuration() << std::endl << "RATING: " << temp.getMovie().getRating() << std::endl << "AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
         std::cout << "========================" << std::endl;
         amount++;
         }
