@@ -4,5 +4,5 @@ users pick a seat by a popup that shows the seating plan and which seats are ava
 upon picking these seats. the user can click the green confirm button to confirm their choices.
 
 TODO:
-Input exceptions.startTime (prolyl when assigning a movie). Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
-reciept.
+startTime (prolyl when assigning a movie). Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
+reciept. rating excepiton

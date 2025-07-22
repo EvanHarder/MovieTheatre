@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
 #include "Theatre.h"
 #include <vector>
 #include <dirent.h>
@@ -100,7 +101,7 @@ void Theatre::removeTheatre(){
     int theatreSelected;
     theatreUtil::readTheatres();
     std::cout << "What theatre do you want to delete: " << std::endl;
-    std::cin >> theatreSelected;
+    theatreSelected = theatreUtil::intEnteredTheatre();
 
     if(remove(("./listOfTheatres/" + (std::string("theatre") + std::to_string(theatreSelected) + ".txt")).c_str()) == 0){
         std::cout << "Removed Theatre" << std::endl;
@@ -247,6 +248,60 @@ int getTheatreNumber(){
     closedir(dir);
     return amount++;
 }
+//amount of created theatres
+int amountOfTheatres(){
+    int amount = 0;
 
+    //open dir and error check
+    DIR* dir = opendir("./listOfTheatres");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+
+    //read
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
+        amount++;
+        }
+
+    }
+    closedir(dir);
+    return amount;
+}
+//processes input for theatre selection
+int intEnteredTheatre(){
+    int choice;
+    bool passed = false;
+    while(!passed){
+        std::cin >> choice;
+
+    //check if int
+        if (std::cin.fail()) {
+            std::cout << "Invalid input. Please enter a whole number.\n";
+           std::cin.clear(); // Clear the error flags
+           // Discard the rest of the invalid input line
+           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          passed = false; 
+        } 
+        else {
+            if(choice > theatreUtil::amountOfTheatres() || choice < 1){
+                std::cout << "Theatre " << choice << " is not an option" << std::endl << "Please enter a shown theatre: ";
+                passed = false;
+            }
+            else{
+                passed = true;
+            }
+    }
+
+        
+
+
+    }
+
+
+    return choice;
+}
 
 }

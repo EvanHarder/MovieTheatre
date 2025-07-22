@@ -1,9 +1,11 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <dirent.h>
 #include "movie.h"
 #include "theatre.h"
+#include "formats.h"
 //default constructor
     Movie::Movie()
     : title("UNTITLED"), duration("0:00"), rating("NR"), startTime("00:00") {}
@@ -51,7 +53,7 @@ namespace movieUtil{
     std::cout << "Title of Movie:" << std::endl;
     std::cin >> t;
     std::cout << "Duration of Movie" << std::endl;
-    std::cin >> d;
+    d = durationValid();
     std::cout << "Rating of Movie" << std::endl;
     std::cin >> r;
 
@@ -88,23 +90,22 @@ namespace movieUtil{
 
     //create a theatre object, create a movie object. put the movie object into the theatre, update theatre file, delete objects afterword (happens naturally)
     void assignMovie(){
-        int theatreNumber = 3;
-        int movieNumber = 1;
-
         Movie tempMovie;
         Theatre tempTheatre(1,1);
 
         //select & load movie
         movieUtil::readMovies();
         std::cout << "What movie to assign: ";
-        std::cin >> movieNumber;
+        int movieNumber = movieUtil::intEnteredMovie();
         tempMovie = movieUtil::loadMovie(std::string("movie") + std::to_string(movieNumber) + ".txt",false);
 
         //select & load theatre
         theatreUtil::readTheatres();
         std::cout << "To theatre: ";
-        std::cin >> theatreNumber;
+        int theatreNumber = theatreUtil::intEnteredTheatre();
         theatreUtil::loadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
+        tempTheatre.resetSeating();
+        //TODO: ASSIGN A STARTING TIME
 
         //place movie into theatre
         tempTheatre.setMovie(tempMovie);
@@ -203,6 +204,55 @@ int getMovieNumber(){
     }
     closedir(dir);
     return amount++;
+}
+int amountOfMovies(){
+    int amount = 0;
+
+    //open dir and error check
+    DIR* dir = opendir("./listOfMovies");
+    if (dir == NULL){
+        std::cout << "Error opening directory" << std::endl;
+    }
+
+    //read
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string file = entry->d_name;
+        if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
+        amount++;
+        }
+
+    }
+    closedir(dir);
+    return amount;
+}
+
+int intEnteredMovie(){
+    int choice;
+    bool passed = false;
+    while(!passed){
+        std::cin >> choice;
+
+    //check if int
+        if (std::cin.fail()) {
+            std::cout << "Invalid input. Please enter a whole number.\n";
+           std::cin.clear(); // Clear the error flags
+           // Discard the rest of the invalid input line
+           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          passed = false; 
+        } 
+        else {
+            if(choice > movieUtil::amountOfMovies() || choice < 1){
+                std::cout << "Movie " << choice << " is not an option" << std::endl << "Please enter a shown Movie: ";
+                passed = false;
+            }   
+            else{
+                passed = true;
+            }
+    }
+    }
+
+    return choice;
 }
 
 }//end of namespace

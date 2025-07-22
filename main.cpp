@@ -30,10 +30,9 @@ int main(){
         if (choice == 1){
             //TODO: ask for a theatre, movie name and seats available;
             //TODO: reciept (just a cohfimration that they got the seats they collecgted. doesnt need to be an object for this scale)
-            int theatreSelected;
             theatreUtil::readTheatres();
             std::cout << "What theatre do you want to book for?: " << std::endl;
-            std::cin >> theatreSelected;
+            int theatreSelected = theatreUtil::intEnteredTheatre();
 
             theatreUtil::loadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
 

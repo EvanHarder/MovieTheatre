@@ -48,4 +48,7 @@ namespace theatreUtil{
     void readTheatres();
     //when creating a theatre what number to put in file
     int getTheatreNumber();
+    int amountOfTheatres();
+    //processes input for theatre selection
+    int intEnteredTheatre();
 }

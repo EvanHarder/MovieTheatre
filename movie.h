@@ -39,4 +39,7 @@ namespace movieUtil{
     void readMovies();
     //when creating a theatre what number to put in file
     int getMovieNumber();
+    int amountOfMovies();
+    //processes input for movie selection
+    int intEnteredMovie();
 }
