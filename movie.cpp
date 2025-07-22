@@ -53,9 +53,9 @@ namespace movieUtil{
     std::cout << "Title of Movie:" << std::endl;
     std::cin >> t;
     std::cout << "Duration of Movie" << std::endl;
-    d = durationValid();
+    d = movieUtil::durationValid();
     std::cout << "Rating of Movie" << std::endl;
-    r = ratingValid();
+    r = movieUtil::ratingValid();
 
     //making file
     //replace test.txt with inputted name;
@@ -69,7 +69,7 @@ namespace movieUtil{
     file << d << std::endl;
     file << r << std::endl;
     //TODO: maybe put what movie number for clarity?
-    std::cout << "Movie " << getMovieNumber()-1 << " Created" << std::endl;
+    std::cout << "Movie " << movieUtil::getMovieNumber()-1 << " Created" << std::endl;
     file.close();
     }
 
@@ -108,6 +108,8 @@ namespace movieUtil{
         //TODO: ASSIGN A STARTING TIME
 
         //place movie into theatre
+        std::cout << "Please enter a start time using a 24 hour clock: ";
+        tempMovie.setStartTime(durationValid());
         tempTheatre.setMovie(tempMovie);
         theatreUtil::unloadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
     };
@@ -145,6 +147,8 @@ namespace movieUtil{
     tempMovie.setDuration(line);
     std::getline(file,line);
     tempMovie.setRating(line);
+    std::getline(file,line);
+    tempMovie.setStartTime(line);
     return tempMovie;
     }
 
@@ -279,15 +283,28 @@ std::string durationValid(){
         std::cin >> choice;
 
     //check if int
-        if (choice.length() != 4 || !isdigit(choice[0]) || !isdigit(choice[2]) ||  !isdigit(choice[3])) {
-            std::cout << "Invalid string. Please enter with a format of 0:00 .\n";
+        if (choice.length() == 4 && isdigit(choice[0]) && isdigit(choice[2]) && isdigit(choice[3])) {
            std::cin.clear(); // Clear the error flags
            // Discard the rest of the invalid input line
            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-          passed = false; 
+          passed = true; 
+        }
+        else if(choice.length() == 5 && isdigit(choice[0]) && isdigit(choice[1]) &&  isdigit(choice[3]) && isdigit(choice[4])) {
+        
+           std::cin.clear(); // Clear the error flags
+           // Discard the rest of the invalid input line
+           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          passed = true; 
         } 
         else {
-        passed = true;
+            if(choice.length()==4){
+                std::cout << "Invalid string. Please enter with a format of 0:00 .\n";
+            }
+            else
+            {
+                std::cout << "Invalid string. Please enter with a format of 00:00 .\n";
+            }
+        passed = false;
         }
     }
 

@@ -4,5 +4,8 @@ users pick a seat by a popup that shows the seating plan and which seats are ava
 upon picking these seats. the user can click the green confirm button to confirm their choices.
 
 TODO:
-startTime (prolyl when assigning a movie). Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
-reciept. ask if i should still include movieUtil in the functions in movie.cpp
+Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
+reciept (in formats file probably).
+
+Further Steps:
+Honestly, this code could also be used for car pooling, airplanes, boats, trains, etc. If needed i think the factory design pattern should work. templates in app.cpp file?
