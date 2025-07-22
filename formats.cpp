@@ -52,24 +52,3 @@ int intValid(){
 
     return choice;
 }
-std::string durationValid(){
-    std::string choice;
-    bool passed = false;
-    while(!passed){
-        std::cin >> choice;
-
-    //check if int
-        if (choice.length() != 4 || !isdigit(choice[0]) || !isdigit(choice[2]) ||  !isdigit(choice[3])) {
-            std::cout << "Invalid string. Please enter with a format of 0:00 .\n";
-           std::cin.clear(); // Clear the error flags
-           // Discard the rest of the invalid input line
-           std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-          passed = false; 
-        } 
-        else {
-        passed = true;
-        }
-    }
-
-    return choice;
-}

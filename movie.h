@@ -42,4 +42,8 @@ namespace movieUtil{
     int amountOfMovies();
     //processes input for movie selection
     int intEnteredMovie();
+    //processes input for movie
+    std::string ratingValid();
+    //process duration input
+    std::string durationValid();
 }

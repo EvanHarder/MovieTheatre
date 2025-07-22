@@ -7,5 +7,4 @@ int menu();
 std::string convertUpper(std::string creation);
 //clearScreen
 void clearScreen();
-std::string durationValid();
 int intValid();

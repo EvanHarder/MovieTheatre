@@ -3,6 +3,7 @@
 #include <string>
 #include <limits>
 #include "Theatre.h"
+#include "formats.h"
 #include <vector>
 #include <dirent.h>
 
@@ -100,7 +101,7 @@ void Theatre::resetSeating(){
 void Theatre::removeTheatre(){
     int theatreSelected;
     theatreUtil::readTheatres();
-    std::cout << "What theatre do you want to delete: " << std::endl;
+    std::cout << "What theatre do you want to delete: ";
     theatreSelected = theatreUtil::intEnteredTheatre();
 
     if(remove(("./listOfTheatres/" + (std::string("theatre") + std::to_string(theatreSelected) + ".txt")).c_str()) == 0){
@@ -117,9 +118,9 @@ void Theatre::createTheatre(){
     int r,c;
     //inputs
     std::cout << "How many rows?" << std::endl;
-    std::cin >> r;
+    r = intValid();
     std::cout << "How many columns?" << std::endl;
-    std::cin >> c;
+    c = intValid();
     Theatre tempTheatre(1,1);
     //putting inputs into a file
     tempTheatre.setRows(r); 
@@ -274,6 +275,7 @@ int amountOfTheatres(){
 int intEnteredTheatre(){
     int choice;
     bool passed = false;
+    //keep in loop until its a valid input
     while(!passed){
         std::cin >> choice;
 
@@ -294,14 +296,7 @@ int intEnteredTheatre(){
                 passed = true;
             }
     }
-
-        
-
-
     }
-
-
     return choice;
 }
-
 }
