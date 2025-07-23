@@ -3,14 +3,10 @@
 #include <string>
 #include "movie.h"
 #include "Theatre.h"
-#include "app.h"
 #include "formats.h"
 
 //#incl
 int main(){
-    //base theatre  
-    Theatre theatre(1,1);
-
     //input for menu
     std::string creation;
     int choice = 1;
@@ -20,24 +16,15 @@ int main(){
     const int AVAILABLECHOICES = 7;
 
     while (choice > 0 && choice < AVAILABLECHOICES){
-        //format
+        //format (spacing)
         clearScreen();
 
-        //grab choice
+        //grab choice in menu
         choice = menu();
 
-        //booking a seat
+        //booking a seat and reciept (just a confirmation that they got the seats they selected. doesnt need to be an object for this scale)
         if (choice == 1){
-            //TODO: ask for a theatre, movie name and seats available;
-            //TODO: reciept (just a cohfimration that they got the seats they collecgted. doesnt need to be an object for this scale)
-            theatreUtil::readTheatres();
-            std::cout << "What theatre do you want to book for?: " << std::endl;
-            int theatreSelected = theatreUtil::intEnteredTheatre();
-
-            theatreUtil::loadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
-
-            app(theatre);
-            theatreUtil::unloadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
+            booking();
         }
 
         //creating theatre
@@ -55,17 +42,16 @@ int main(){
         else if(choice == 3){
             Theatre::removeTheatre();
         }
-
+        //create a movie
         else if (choice == 4){
-            //error here make sure to fix how the theatres are called.
             movieUtil::createMovie();
         }
+        //remove a movie
         else if(choice == 5){
-            //remove movie
             movieUtil::removeMovie();
         }
+        //assign a movie to a theatre
         else if (choice == 6){
-            //assign movie
             movieUtil::assignMovie();
         }
     }

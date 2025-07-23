@@ -49,7 +49,7 @@ void app(Theatre& theatre) {
     bool confirmChoice = false;
     
     //window and confirm square
-    sf::RenderWindow window(sf::VideoMode(xAxis, yAxis), theatre.getName());
+    sf::RenderWindow window(sf::VideoMode(xAxis, yAxis), theatre.getMovie().getTitle());
     sf::RectangleShape confirm(sf::Vector2f(squareSize, squareSize));
     confirm.setPosition(0,0);
     confirm.setFillColor(sf::Color::Green);

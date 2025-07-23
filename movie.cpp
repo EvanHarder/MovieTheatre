@@ -263,7 +263,7 @@ std::string ratingValid(){
     bool passed = false;
     while(!passed){
         std::cin >> choice;
-
+        choice = convertUpper(choice);
     //check if int
         if (choice == "G" || choice == "PG" || choice == "14A" || choice == "18A" || choice == "R") {
             passed = true;

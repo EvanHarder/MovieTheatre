@@ -1,4 +1,6 @@
 #include "formats.h"
+#include "app.h"
+#include "Theatre.h"
 #include <string>
 #include <limits>
 #include <iostream>
@@ -51,4 +53,29 @@ int intValid(){
     }
 
     return choice;
+}
+void booking(){
+    //base theatre  
+    Theatre theatre(1,1);
+
+    int firstAvailable;
+    int secondAvailable;
+    int seatsTaken;
+    int theatreSelected;
+    //input
+    theatreUtil::readTheatres();
+    std::cout << "What theatre do you want to book for?: " << std::endl;
+    theatreSelected = theatreUtil::intEnteredTheatre();
+
+    //load and unload
+    theatreUtil::loadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
+    firstAvailable = theatre.showAvailableSeats();
+    app(theatre);
+    secondAvailable = theatre.showAvailableSeats();
+    theatreUtil::unloadTheatre(theatre,std::string("theatre") + std::to_string(theatreSelected) + ".txt");
+    seatsTaken = firstAvailable - secondAvailable;
+    //receipt
+    std::cout << "=========== RECEIPT ===========" << std::endl;
+    std::cout << "You've sucessfully selected " << seatsTaken << " seats" << std::endl;
+    std::cout << "-------------------------------" << std::endl;
 }

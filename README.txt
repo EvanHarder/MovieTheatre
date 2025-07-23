@@ -13,4 +13,4 @@ reciept (in formats file probably).
 
 Further Steps:
 Honestly, this code could also be used for car pooling, airplanes, boats, trains, etc. If needed i think the factory design pattern should work. templates in app.cpp file?
-For clearing the theatres when the duration is over. code would have to change because a server would always be running.
+For clearing the theatres when the duration is over. code would have to change because a server would always be running. Verificiation showing you bought a seat.
