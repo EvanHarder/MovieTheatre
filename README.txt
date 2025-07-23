@@ -9,7 +9,6 @@ Compiling
 
 TODO:
 Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
-reciept (in formats file probably).
 
 Further Steps:
 Honestly, this code could also be used for car pooling, airplanes, boats, trains, etc. If needed i think the factory design pattern should work. templates in app.cpp file?
