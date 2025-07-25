@@ -8,7 +8,7 @@ Compiling
     in your terminal type "make" to compile everything in this project. after it compiles just use the executable "./start" to start the program. 
 
 TODO:
-Duration(maybe make a funciton that turns duration into an int and make the orgional duration a string.)
+Duration(maybe make a funciton that turns duration into an int.)
 
 Further Steps:
 Honestly, this code could also be used for car pooling, airplanes, boats, trains, etc. If needed i think the factory design pattern should work. templates in app.cpp file?

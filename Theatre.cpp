@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <limits>
+#include <ctime>
 #include "Theatre.h"
 #include "formats.h"
 #include <vector>
@@ -132,6 +133,33 @@ void Theatre::createTheatre(){
     //TODO: maybe put what theatre number for clarity?
     std::cout << "Theatre " << theatreUtil::getTheatreNumber()-1 << " Created" << std::endl;
 }
+    void Theatre::movieFinished(){
+        Movie refreshMovie;
+        std::time_t currentTime = std::time(0);
+        std::tm* localTime = std::localtime(&currentTime);
+        std::string startTime = this->getMovie().getStartTime();
+        std::string duration = this->getMovie().getDuration();
+        int colon = duration.find(':');
+        int startHour = std::stoi(startTime.substr(0, 2)) +  std::stoi(duration.substr(0,colon));
+
+
+
+        //if current hour is past startTime
+        if(localTime->tm_hour > startHour){
+            this->resetSeating();
+            this->setMovie(refreshMovie);
+        }
+        else if(localTime->tm_hour == startHour){
+        int startMinute = std::stoi(startTime.substr(3, 2)) + std::stoi(duration.substr(2, 2));
+
+            if(localTime->tm_min >= startMinute){
+                this->resetSeating();
+                this->setMovie(refreshMovie);
+            }
+        }
+    }
+
+
 
 
 
@@ -192,6 +220,7 @@ void unloadTheatre(Theatre &theatre, std::string fileName){
     Movie tempMovie = movieUtil::loadMovie(fileName,true);
 
     theatre.setMovie(tempMovie);
+    theatre.movieFinished();
     file.close();
 }
 

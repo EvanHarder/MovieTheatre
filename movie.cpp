@@ -43,8 +43,6 @@
 
 
 namespace movieUtil{
-    //checks startTime and duration to see if the movie is done playing
-    //bool movieFinished(Movie &movie);
 
     void createMovie(){
 

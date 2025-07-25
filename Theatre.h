@@ -29,6 +29,8 @@ int showAvailableSeats();
 //file manipulation
     void static removeTheatre();
     void static createTheatre();
+//time
+    void movieFinished();
 private:
     std::string name;
     int rows;
@@ -41,6 +43,7 @@ private:
 
 };
 namespace theatreUtil{
+
     //theatre read and write
     void unloadTheatre(Theatre &theatre, std::string fileName);
     void loadTheatre(Theatre &theatre, std::string fileName);

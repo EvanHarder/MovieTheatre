@@ -27,8 +27,6 @@ class Movie {
 };
 //todo
 namespace movieUtil{
-    //checks startTime and duration to see if the movie is done playing
-    //bool movieFinished(Movie &movie);
     //creates a file for a movie
     void createMovie();
     //removes a file for a movie
