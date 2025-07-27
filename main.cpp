@@ -10,7 +10,7 @@ int main(){
     //input for menu
     std::string creation;
     int choice = 1;
-
+    
     
     //Constant Variables
     const int AVAILABLECHOICES = 7;

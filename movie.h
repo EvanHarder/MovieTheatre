@@ -5,18 +5,20 @@ class Movie {
     //default constructor
     Movie();
     //constructor
-    Movie(std::string title, std::string duration, std::string rating, std::string startTime);
+    Movie(std::string title, std::string duration, std::string rating, std::string startTime, int day);
     //getters
     std::string getTitle() const;
     std::string getDuration() const;
     std::string getRating() const;
     std::string getStartTime() const;
+    int getDay() const;
 
     //setters
     void setTitle(std::string title);
     void setDuration(std::string duration);
     void setRating(std::string rating);
     void setStartTime(std::string startTime);
+    void setDay(int day);
 
     //variables
     private:
@@ -24,6 +26,7 @@ class Movie {
         std::string duration;
         std::string rating;
         std::string startTime;
+        int day;
 };
 //todo
 namespace movieUtil{

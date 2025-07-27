@@ -139,12 +139,16 @@ void Theatre::createTheatre(){
         std::tm* localTime = std::localtime(&currentTime);
         std::string startTime = this->getMovie().getStartTime();
         std::string duration = this->getMovie().getDuration();
+        int startDay = this->getMovie().getDay();
         int colon = duration.find(':');
         int startHour = std::stoi(startTime.substr(0, 2)) +  std::stoi(duration.substr(0,colon));
 
 
 
         //if current hour is past startTime
+        if (localTime->tm_mday != startDay){
+            return;
+        }
         if(localTime->tm_hour > startHour){
             this->resetSeating();
             this->setMovie(refreshMovie);
@@ -183,6 +187,7 @@ void unloadTheatre(Theatre &theatre, std::string fileName){
     file << theatre.getMovie().getDuration() << std::endl;
     file << theatre.getMovie().getRating() << std::endl;
     file << theatre.getMovie().getStartTime() << std::endl;
+    file << theatre.getMovie().getDay() << std::endl;
 
     
     file.close();
@@ -226,7 +231,6 @@ void unloadTheatre(Theatre &theatre, std::string fileName){
 
 
 void readTheatres(){
-    int amount = 1;
     Theatre temp(1,1);
     //format
     std::cout << "----------------List of Theaters----------------" << std::endl;
@@ -243,9 +247,8 @@ void readTheatres(){
         if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
         theatreUtil::loadTheatre(temp,file);
         std::cout << "========================" << std::endl;
-        std::cout << "      THEATRE " << file.substr(7, (file.find('.', 7)-7)) << ": " << std::endl << "TITLE: " << temp.getMovie().getTitle() << std::endl <<"START TIME: " << temp.getMovie().getStartTime() << std::endl << "DURATION: " << temp.getMovie().getDuration() << std::endl << "RATING: " << temp.getMovie().getRating() << std::endl << "AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
+        std::cout << "      THEATRE " << file.substr(7, (file.find('.', 7)-7)) << ": " << std::endl << "TITLE: " << temp.getMovie().getTitle() << std::endl <<"DAY: " << temp.getMovie().getDay() << std::endl <<"START TIME: " << temp.getMovie().getStartTime() << std::endl << "DURATION: " << temp.getMovie().getDuration() << std::endl << "RATING: " << temp.getMovie().getRating() << std::endl << "AVAILABLE SEATS: " << temp.showAvailableSeats() << std::endl;
         std::cout << "========================" << std::endl;
-        amount++;
         }
 
     }
@@ -278,10 +281,9 @@ int getTheatreNumber(){
     closedir(dir);
     return amount++;
 }
-//amount of created theatres
-int amountOfTheatres(){
-    int amount = 0;
-
+//amount of created theatres returns lest say 2 but its theatre 1 and 3
+bool theatreInputValid(int choice){
+    bool passed = false;
     //open dir and error check
     DIR* dir = opendir("./listOfTheatres");
     if (dir == NULL){
@@ -293,12 +295,14 @@ int amountOfTheatres(){
     while ((entry = readdir(dir)) != NULL) {
         std::string file = entry->d_name;
         if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
-        amount++;
+            if (std::stoi(file.substr(7, (file.find('.', 7)-7))) == choice){
+                passed = true;
+            } 
         }
-
     }
+
     closedir(dir);
-    return amount;
+    return passed;
 }
 //processes input for theatre selection
 int intEnteredTheatre(){
@@ -317,7 +321,7 @@ int intEnteredTheatre(){
           passed = false; 
         } 
         else {
-            if(choice > theatreUtil::amountOfTheatres() || choice < 1){
+            if(!theatreInputValid(choice)){
                 std::cout << "Theatre " << choice << " is not an option" << std::endl << "Please enter a shown theatre: ";
                 passed = false;
             }

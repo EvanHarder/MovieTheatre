@@ -8,9 +8,9 @@
 #include "formats.h"
 //default constructor
     Movie::Movie()
-    : title("UNTITLED"), duration("0:00"), rating("NR"), startTime("00:00") {}
+    : title("UNTITLED"), duration("0:00"), rating("NR"), startTime("00:00"),day(0) {}
 //constructor
-    Movie::Movie(std::string title, std::string duration, std::string rating, std::string startTime) : title(title),duration(duration),rating(rating),startTime(startTime) {}
+    Movie::Movie(std::string title, std::string duration, std::string rating, std::string startTime,int day) : title(title),duration(duration),rating(rating),startTime(startTime),day(day) {}
 //getters
     std::string Movie::getTitle() const {
         return this->title;
@@ -24,6 +24,9 @@
 
     std::string Movie::getStartTime() const {
         return this->startTime;
+    };
+    int Movie::getDay() const {
+        return this->day;
     };
 
 //setters
@@ -40,6 +43,10 @@
     void Movie::setStartTime(std::string startTime){
         this->startTime = startTime;
     };
+    void Movie::setDay(int day){
+        this->day = day;
+    };
+
 
 
 namespace movieUtil{
@@ -108,6 +115,8 @@ namespace movieUtil{
         //place movie into theatre
         std::cout << "Please enter a start time using a 24 hour clock: ";
         tempMovie.setStartTime(durationValid());
+        std::cout << "Please enter a day: ";
+        tempMovie.setDay(intValid());
         tempTheatre.setMovie(tempMovie);
         theatreUtil::unloadTheatre(tempTheatre,std::string("theatre") + std::to_string(theatreNumber) + ".txt");
     };
@@ -133,11 +142,12 @@ namespace movieUtil{
             std::cout << "Error opening Theatre!" << std::endl;
             return tempMovie;
         }
+        //skipping the theatre lines
         std::getline(file,line);
         std::getline(file,line);
         std::getline(file,line);
     }
-    //setting movie parameters, title,duration,rating,starttime
+    //setting movie parameters, title,duration,rating,starttime,day
     
     std::getline(file,line);
     tempMovie.setTitle(line);
@@ -145,14 +155,20 @@ namespace movieUtil{
     tempMovie.setDuration(line);
     std::getline(file,line);
     tempMovie.setRating(line);
+
+    //these are empty lines while loading non theatre movies
+    if(inTheatreObject) {
     std::getline(file,line);
     tempMovie.setStartTime(line);
+    std::getline(file,line);
+    tempMovie.setDay(std::stoi(line));
+    }
+    file.close();
     return tempMovie;
     }
 
 
     void readMovies(){
-    int amount = 1;
     Movie temp;
     //format
     std::cout << "----------------List of Movies----------------" << std::endl;
@@ -169,12 +185,11 @@ namespace movieUtil{
         if(!(file == "." || file == "..")){
             temp = movieUtil::loadMovie(file,false);
             std::cout << "========================" << std::endl;
-            std::cout << "      Movie " << amount << ": "  << std::endl;
+            std::cout << "      Movie " << file.substr(5, (file.find('.', 5)-5)) << ": "  << std::endl;
             std::cout << "Title: " << temp.getTitle() << std::endl;
             std::cout << "Duration: " << temp.getDuration() << std::endl;
             std::cout << "Rating: " << temp.getRating() << std::endl;
             std::cout << "========================" << std::endl;
-            amount++;
         }
 
     }
@@ -207,9 +222,8 @@ int getMovieNumber(){
     closedir(dir);
     return amount++;
 }
-int amountOfMovies(){
-    int amount = 0;
-
+bool movieInputValid(int choice){
+    bool passed = false;
     //open dir and error check
     DIR* dir = opendir("./listOfMovies");
     if (dir == NULL){
@@ -221,12 +235,14 @@ int amountOfMovies(){
     while ((entry = readdir(dir)) != NULL) {
         std::string file = entry->d_name;
         if(!(file == "." || file == "..")&& file.size() > 4 && file.substr(file.size()-4) == ".txt"){
-        amount++;
+            if (std::stoi(file.substr(5, (file.find('.', 5)-5))) == choice){
+                passed = true;
+            } 
         }
-
     }
+
     closedir(dir);
-    return amount;
+    return passed;
 }
 
 int intEnteredMovie(){
@@ -244,7 +260,7 @@ int intEnteredMovie(){
           passed = false; 
         } 
         else {
-            if(choice > movieUtil::amountOfMovies() || choice < 1){
+            if(!movieUtil::movieInputValid(choice)){
                 std::cout << "Movie " << choice << " is not an option" << std::endl << "Please enter a shown Movie: ";
                 passed = false;
             }   
